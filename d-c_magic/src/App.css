@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow-y: auto;
 }
 
 .App-logo {
@@ -35,4 +36,116 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.searchBar {
+  display: flex;
+  height: 70px;
+  background: #FF5A00;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchBar label {
+  color: white;
+  text-align: center;
+  line-height: 22px;
+  margin: 0 5px;
+}
+
+.searchBar input {
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+}
+
+.searchBar button {
+  border: none;
+  color: #FF5A00;
+  height: 22px;
+  background: white;
+  outline: none;
+  border-left: #FF5A00 solid 1px;
+  border-radius: 0 5px 5px 0;
+
+}
+
+.searchBar button:hover {
+  cursor: pointer;
+  transition: filter 0.3s;
+  filter: brightness(0.9);
+}
+
+.searchBar input:focus{
+  border: none;
+  outline: none;
+}
+
+.orderByDiv {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F05500;
+}
+
+.orderByDiv select {
+  border-radius: 5px;
+  height: 22px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.orderByDiv label {
+  color: white;
+  text-align: center;
+  line-height: 22px;
+  margin: 0 5px;
+}
+
+.mainContainer {
+  display: flex;
+  background: #DDDBDB;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 350px;
+  font-size: 10px;
+  padding: 5px;
+  text-align: center;
+  margin: 15px;
+  background: white;
+  border-radius: 5px;
+}
+
+.cardBox img {
+  transition: all .3s ease-in-out; 
+}
+
+.cardBox img:hover {
+  padding-top: 60px;
+  transform: scale(1.5); 
+}
+.loadMore {
+  margin: 50px 0px;
+  border: none;
+  color: white;
+  background: #F05500;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.loadMore:hover {
+  cursor: pointer;
+  transition: filter 0.3s;
+  filter: brightness(0.9);
 }
