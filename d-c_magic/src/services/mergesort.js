@@ -40,7 +40,7 @@ const merge = (fieldToSort, arrayOfElements, left, middle, right) => {
     }
 }
 
-const mergeSort = (fieldToSort, arrayOfElements, left, right) => {
+export const mergeSort = (fieldToSort, arrayOfElements, left, right) => {
     if (left >= right) {
         return;
     }
@@ -49,5 +49,3 @@ const mergeSort = (fieldToSort, arrayOfElements, left, right) => {
     mergeSort(fieldToSort, arrayOfElements, middle + 1, right);
     merge(fieldToSort, arrayOfElements, left, middle, right);
 }
-
-export default { mergeSort }
