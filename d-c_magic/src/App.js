@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import logo from './logo.svg';
 import './App.css';
-import { getAllCardsByName, getAllCardsByColor } from './services/mtgservice';
+import { getAllCardsByName } from './services/mtgservice';
 import { mergeSort } from './services/mergesort';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentCardSet, setCurrentCardsSet] = useState([]);
   const [hasMoreToLoad, setHasMoreToLoad] = useState(false);
-  const [cardName, setCardName] = useState('nissa');
+  const [cardName, setCardName] = useState('');
   const [sortBy, setSortBy] = useState('');
 
   const getDefaultData = async () => {
@@ -34,9 +33,7 @@ function App() {
     const response = await getAllCardsByName(name, page + 1);
     if (response.length > 0) {
       setHasMoreToLoad(true);
-      console.log('curr set', currentCardSet)
       const arrayToSort = [...currentCardSet, ...response];
-      console.log('to sort', arrayToSort);
       handleSort(arrayToSort, sortBy);
       setLoading(false);
       setCurrentPage((prev) => prev + 1);
@@ -49,7 +46,9 @@ function App() {
 
   const handleSort = (arrayToSort, sortByType) => {
     const auxArr = [...arrayToSort];
-    mergeSort(sortByType, auxArr, 0, arrayToSort.length - 1);
+    if (!!sortByType) {
+      mergeSort(sortByType, auxArr, 0, arrayToSort.length - 1);
+    }
     setCurrentCardsSet(auxArr);
   }
 
@@ -57,34 +56,31 @@ function App() {
 
   useEffect(() => console.log(currentCardSet), [currentCardSet]);
 
-  // useEffect(() => {
-  //   handleSort
-  // }, [sortBy])
-
   return (
     <div className="App">
       <div className='searchBar'>
         <label for="cardName">Buscar carta</label>
         <input type="text" id="cardName" onChange={(e) => setCardName(e.target.value)} />
         <button onClick={() => {
+          setCurrentCardsSet([])
           handleSearchByName(cardName, 1);
         }} type="button" >Buscar</button>
       </div>
       {
-          currentCardSet.length > 0 &&
-          <div className='orderByDiv'>
-            <label for="orderBy">Ordernar por</label>
-            <select name="select" id="orderBy" onChange={(e) => {
-              setSortBy(e.target.value)
-              handleSort(currentCardSet, e.target.value)
-            }}>
-              <option disabled selected value> -- Selecione uma opção -- </option>
-              <option value="cmc">CMC (Custo de Mana Convertido)</option>
-              <option value="name">Nome</option>
-              <option value="setName">Coleção</option>
-            </select>
-          </div>
-        }
+        currentCardSet.length > 0 &&
+        <div className='orderByDiv'>
+          <label for="orderBy">Ordernar por</label>
+          <select name="select" id="orderBy" onChange={(e) => {
+            setSortBy(e.target.value)
+            handleSort(currentCardSet, e.target.value)
+          }}>
+            <option disabled selected value> -- Selecione uma opção -- </option>
+            <option value="cmc">CMC (Custo de Mana Convertido)</option>
+            <option value="name">Nome</option>
+            <option value="setName">Coleção</option>
+          </select>
+        </div>
+      }
       <div className='mainContainer'>
         <div style={{ display: 'flex', maxWidth: '1120px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
           {currentCardSet.map((card) =>
@@ -97,14 +93,12 @@ function App() {
               </div>
             </div>
           )}
-
         </div>
         {
           (hasMoreToLoad && currentCardSet.length > 0) &&
           <button className="loadMore" onClick={() => handleLoadMore(cardName, currentPage)} type="button">Carregar mais</button>
         }
       </div>
-
     </div>
   );
 }
